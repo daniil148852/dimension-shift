@@ -1,0 +1,52 @@
+# .github/workflows/build.yml
+
+name: Build Geode Mod
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - { name: Windows, os: windows-latest, platform: win }
+          - { name: macOS, os: macos-latest, platform: mac }
+          - { name: Android32, os: ubuntu-latest, platform: android32 }
+          - { name: Android64, os: ubuntu-latest, platform: android64 }
+
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build mod
+        uses: geode-sdk/build-geode-mod@main
+        with:
+          platform: ${{ matrix.config.platform }}
+
+  package:
+    name: Package .geode
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Combine artifacts
+        uses: geode-sdk/build-geode-mod/combine@main
+        id: package
+
+      - name: Upload .geode
+        uses: actions/upload-artifact@v4
+        with:
+          name: dimension-shift
+          path: ${{ steps.package.outputs.build-output }}/*.geode
