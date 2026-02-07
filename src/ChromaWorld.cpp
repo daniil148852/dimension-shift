@@ -64,7 +64,11 @@ void ChromaWorld::update(float dt) {
         if (!fracture) continue;
         // Subtle pulsing glow
         float pulse = 0.6f + 0.4f * std::sin(m_time * 2.f + fracture->getPositionX() * 0.01f);
-        fracture->setOpacity(static_cast<GLubyte>(pulse * 200));
+        
+        // Cast to CCNodeRGBA to use setOpacity
+        if (auto rgba = dynamic_cast<cocos2d::CCNodeRGBA*>(fracture)) {
+            rgba->setOpacity(static_cast<GLubyte>(pulse * 200));
+        }
 
         // Very slow rotation
         fracture->setRotation(fracture->getRotation() + dt * 5.f);
@@ -140,9 +144,10 @@ void ChromaWorld::createRhythmPulse(cocos2d::CCLayer* parent) {
 void ChromaWorld::createDimensionFracture(cocos2d::CCPoint position, int intensity) {
     if (!Mod::get()->getSettingValue<bool>("dimension-fracture")) return;
 
-    // Create a "crack" visual at death position
-    auto fractureNode = cocos2d::CCNode::create();
+    // Create a "crack" visual at death position using CCNodeRGBA for opacity support
+    auto fractureNode = cocos2d::CCNodeRGBA::create();
     fractureNode->setPosition(position);
+    fractureNode->setCascadeOpacityEnabled(true);
 
     // Create crack lines using draw node
     auto drawNode = cocos2d::CCDrawNode::create();
