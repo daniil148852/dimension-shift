@@ -1,0 +1,96 @@
+{
+    "geode": "4.10.2",
+    "gd": {
+        "win": "2.2074",
+        "mac": "2.2074",
+        "android": "2.2074"
+    },
+    "version": "v1.0.0",
+    "id": "yourname.dimension-shift",
+    "name": "Dimension Shift",
+    "developer": "YourName",
+    "description": "Reality bends around your gameplay. Features: Emotional Color Engine, Time Echoes, Ghost Trails, Rhythm Pulse World, and Dimension Fractures.",
+    "tags": ["gameplay", "enhancement", "visual", "interface"],
+    "settings": {
+        "enabled": {
+            "type": "bool",
+            "default": true,
+            "name": "Enable Dimension Shift",
+            "description": "Master toggle for all features"
+        },
+        "ghost-trail": {
+            "type": "bool",
+            "default": true,
+            "name": "Ghost Trail",
+            "description": "Your past attempts haunt the level as translucent ghosts"
+        },
+        "time-echo": {
+            "type": "bool",
+            "default": true,
+            "name": "Time Echo",
+            "description": "Objects ripple through time based on your death count"
+        },
+        "emotion-engine": {
+            "type": "bool",
+            "default": true,
+            "name": "Emotion Engine",
+            "description": "World colors shift based on your performance patterns"
+        },
+        "rhythm-pulse": {
+            "type": "bool",
+            "default": true,
+            "name": "Rhythm Pulse",
+            "description": "The world breathes and pulses to the music"
+        },
+        "dimension-fracture": {
+            "type": "bool",
+            "default": true,
+            "name": "Dimension Fractures",
+            "description": "Reality cracks appear at death points"
+        },
+        "ghost-opacity": {
+            "type": "float",
+            "default": 0.3,
+            "min": 0.05,
+            "max": 0.8,
+            "name": "Ghost Opacity",
+            "description": "How visible ghost trails are"
+            "control": {
+                "slider": true,
+                "slider-step": 0.05
+            }
+        },
+        "pulse-intensity": {
+            "type": "float",
+            "default": 0.5,
+            "min": 0.1,
+            "max": 1.0,
+            "name": "Pulse Intensity",
+            "description": "How strongly the world reacts to music",
+            "control": {
+                "slider": true,
+                "slider-step": 0.1
+            }
+        },
+        "max-ghosts": {
+            "type": "int",
+            "default": 5,
+            "min": 1,
+            "max": 15,
+            "name": "Max Ghost Trails",
+            "description": "Maximum number of ghost replays shown"
+        },
+        "fracture-persist": {
+            "type": "bool",
+            "default": false,
+            "name": "Persistent Fractures",
+            "description": "Death fractures remain across attempts"
+        }
+    },
+    "dependencies": [],
+    "resources": {
+        "sprites": [
+            "resources/*.png"
+        ]
+    }
+}
