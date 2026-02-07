@@ -54,7 +54,7 @@
             "min": 0.05,
             "max": 0.8,
             "name": "Ghost Opacity",
-            "description": "How visible ghost trails are"
+            "description": "How visible ghost trails are",
             "control": {
                 "slider": true,
                 "slider-step": 0.05
@@ -94,3 +94,4 @@
         ]
     }
 }
+
