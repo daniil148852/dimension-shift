@@ -32,7 +32,7 @@ void TimeEchoEffect::applyToObjects(cocos2d::CCArray* objects, float cameraX) {
 
     float viewWidth = cocos2d::CCDirector::sharedDirector()->getWinSize().width;
 
-    for (int i = 0; i < objects->count(); i++) {
+    for (unsigned int i = 0; i < objects->count(); i++) {
         auto obj = static_cast<cocos2d::CCNode*>(objects->objectAtIndex(i));
         if (!obj) continue;
 
@@ -62,12 +62,6 @@ void TimeEchoEffect::distortObject(cocos2d::CCNode* obj, int deathCount, float n
     float wobbleX = std::sin(m_time * 8.f + obj->getPositionX() * 0.1f) * intensity * 3.f;
     float wobbleY = std::cos(m_time * 6.f + obj->getPositionY() * 0.1f) * intensity * 3.f;
 
-    // Store original position if not stored yet
-    if (obj->getUserData() == nullptr) {
-        // Use a small offset applied each frame - it self-corrects
-        // because we're applying relative to current pos through visual transform
-    }
-
     // Scale distortion - slight breathing effect
     float scaleWobble = 1.f + std::sin(m_time * 4.f + obj->getPositionX()) * intensity * 0.08f;
     obj->setScale(obj->getScale() > 0 ? std::abs(obj->getScale()) * scaleWobble : scaleWobble);
@@ -75,8 +69,7 @@ void TimeEchoEffect::distortObject(cocos2d::CCNode* obj, int deathCount, float n
     // Rotation micro-tremor
     float rotTremor = std::sin(m_time * 12.f + obj->getPositionY() * 0.05f) * intensity * 5.f;
 
-    // Apply visual offset using the node's additional transform
-    // We apply this as a skew to avoid messing with position (which affects gameplay)
+    // Apply visual offset using the node's skew
     obj->setSkewX(wobbleX);
     obj->setSkewY(wobbleY);
     obj->setRotation(obj->getRotation() + rotTremor * 0.1f);
@@ -95,6 +88,14 @@ void TimeEchoEffect::distortObject(cocos2d::CCNode* obj, int deathCount, float n
     // Opacity flicker for heavy death zones
     if (deathCount > 5) {
         float flicker = 0.85f + 0.15f * std::sin(m_time * 20.f + obj->getPositionX());
-        obj->setOpacity(static_cast<GLubyte>(obj->getOpacity() * flicker));
+        
+        // Cast to CCNodeRGBA to use setOpacity/getOpacity
+        if (auto rgba = dynamic_cast<cocos2d::CCNodeRGBA*>(obj)) {
+            rgba->setOpacity(static_cast<GLubyte>(rgba->getOpacity() * flicker));
+        }
+        // Also try CCSprite which has opacity methods
+        else if (auto spr = dynamic_cast<cocos2d::CCSprite*>(obj)) {
+            spr->setOpacity(static_cast<GLubyte>(spr->getOpacity() * flicker));
+        }
     }
 }
