@@ -87,11 +87,7 @@
             "description": "Death fractures remain across attempts"
         }
     },
-    "dependencies": [],
-    "resources": {
-        "sprites": [
-            "resources/*.png"
-        ]
-    }
+    "dependencies": []
 }
+
 
