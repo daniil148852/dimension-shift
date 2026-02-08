@@ -14,12 +14,17 @@ project(AiChat VERSION 1.0.0)
 # Собираем исходники
 add_library(${PROJECT_NAME} SHARED
     src/main.cpp
-    src/DimensionManager.cpp
-    src/GhostTrail.cpp
-    src/ChromaWorld.cpp
-    src/TimeEcho.cpp
-    src/EmotionEngine.cpp
-    src/SettingsPopup.cpp
+    src/PathfinderMod.cpp
+    src/Simulator.cpp
+    src/PhysicsEngine.cpp
+    src/GameModeHandlers.cpp
+    src/LevelAnalyzer.cpp
+    src/ReplayRecorder.cpp
+    src/GDR2Format.cpp
+    src/PathfinderUI.cpp
+    src/OverlayButton.cpp
+    src/GeneticSolver.cpp
+    src/SegmentSolver.cpp
 )
 
 # ========== GEODE SDK ==========
@@ -35,3 +40,4 @@ add_subdirectory($ENV{GEODE_SDK} ${CMAKE_CURRENT_BINARY_DIR}/geode)
 
 # Настраиваем мод
 setup_geode_mod(${PROJECT_NAME})
+
